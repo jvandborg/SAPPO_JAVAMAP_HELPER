@@ -2,6 +2,9 @@ package com.sap.aii.mapping.lookup;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,7 +12,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.sap.aii.mapping.lookup.SystemAccessor.Internal;
 
@@ -43,16 +45,23 @@ public class SystemAccessorInternalImpl implements Internal {
 		if ("JDBC".equals(connectionDetail.getType())) {
 
 			try {
+				Connection conn = DriverManager.getConnection(connectionDetail.getUrl(), connectionDetail.getUsername(), connectionDetail.getPassword());
+				
 				SAXParserFactory factory = SAXParserFactory.newInstance();
 				SAXParser saxParser = factory.newSAXParser();
 
-				SQLHandler handler = new SQLHandler();
+				SQLHandler handler = new SQLHandler(conn);
 				saxParser.parse(payload.getContent(), handler);
 				List<SQLStatement> sqlStatements = handler.getSQLStatements();
 				System.out.println("SQL Statements: " + sqlStatements);
 			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
 			} catch (SAXException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 			DataBaseAccessor accessor = new DataBaseAccessor(this);
 		}

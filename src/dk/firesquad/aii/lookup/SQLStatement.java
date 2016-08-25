@@ -20,7 +20,7 @@ public class SQLStatement {
 
 	@Override
 	public String toString() {
-		return "SQLStatement [statement=" + statement + ", statementName="
+		return "SQLStatement [statement=\"" + statement + "\", statementName="
 				+ statementName + "]";
 	}
 
