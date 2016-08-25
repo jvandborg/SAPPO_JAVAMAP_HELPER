@@ -1,0 +1,25 @@
+# JDBC drivers
+drivers:
+-   
+    name: com.ibm.as400.access.AS400JDBCDriver
+    type: JDBC
+-
+    name: net.sourceforge.jtds.jdbc.Driver
+    type: JDBC
+
+# Connection parameters
+connections:
+-
+    party:
+    service: SERVICE
+    channelName: CHANNEL1
+    url: 
+    username:
+    password:
+-
+    party:
+    service: SERVICE
+    channelName: CHANNEL2
+    url: 
+    username:
+    password:
